@@ -1,12 +1,8 @@
 defmodule Google do
-  require Logger
-
   use OAuth2.Strategy
-
   alias OAuth2.Strategy.AuthCode
 
   def client do
-    Logger.debug "CLIENT_ID: #{System.get_env("CLIENT_ID")}"
     OAuth2.Client.new([
       strategy: __MODULE__,
       client_id: System.get_env("CLIENT_ID"),
