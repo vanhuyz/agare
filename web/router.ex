@@ -17,6 +17,14 @@ defmodule Agare.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    resources "/users", UserController
+  end
+
+  scope "/auth", Agare do
+    pipe_through :browser # Use the default browser stack
+
+    get "/:provider", AuthController, :index
+    get "/:provider/callback", AuthController, :callback
   end
 
   # Other scopes may use custom stacks.
