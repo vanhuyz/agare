@@ -22,7 +22,7 @@ defmodule Agare.Router do
   scope "/auth", Agare do
     pipe_through :browser # Use the default browser stack
 
-    delete "/logout", AuthController, :logout
+    delete "/sign_out", AuthController, :sign_out
     get "/:provider", AuthController, :index
     get "/:provider/callback", AuthController, :callback
   end

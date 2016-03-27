@@ -17,7 +17,7 @@ defmodule Agare.AuthController do
 
     if user = Repo.get_by(User, email: user_params["email"]) do
       conn
-      |> put_flash(:info, "Login successfully.")
+      |> put_flash(:info, "Signed in successfully.")
       |> put_session(:current_user_id, user.id)
       |> put_session(:access_token, token.access_token)
       |> redirect(to: "/")      
@@ -25,19 +25,19 @@ defmodule Agare.AuthController do
       case Repo.insert(changeset) do
         {:ok, user} ->
           conn
-          |> put_flash(:info, "Login successfully.")
+          |> put_flash(:info, "Signed in successfully.")
           |> put_session(:current_user_id, user.id)
           |> put_session(:access_token, token.access_token)
           |> redirect(to: "/")
-        {:error, changeset} ->
+        {:error, _changeset} ->
           conn
-          |> put_flash(:error, "Login failed.")
+          |> put_flash(:error, "Unable to sign in.")
           |> redirect(to: "/")
       end
     end
   end
 
-  def logout(conn, _) do
+  def sign_out(conn, _) do
     conn
     |> clear_session
     |> redirect to: "/"
