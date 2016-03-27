@@ -2,18 +2,45 @@ defmodule Agare.AuthController do
   require Logger
   use Agare.Web, :controller
 
+  alias Agare.User
+
   def index(conn, %{"provider" => provider}) do
     redirect conn, external: authorize_url!(provider)
   end
 
   def callback(conn, %{"provider" => provider, "code" => code}) do
     token = get_token!(provider, code)
-    user = get_user!(provider, token)
-    Logger.debug "User #{inspect user}"
+    user_body = get_user!(provider, token)
+    user_params = Map.take(user_body, ["email","name","picture"])
+
+    changeset = User.changeset(%User{}, user_params)
+
+    if user = Repo.get_by(User, email: user_params["email"]) do
+      conn
+      |> put_flash(:info, "Login successfully.")
+      |> put_session(:current_user_id, user.id)
+      |> put_session(:access_token, token.access_token)
+      |> redirect(to: "/")      
+    else
+      case Repo.insert(changeset) do
+        {:ok, user} ->
+          conn
+          |> put_flash(:info, "Login successfully.")
+          |> put_session(:current_user_id, user.id)
+          |> put_session(:access_token, token.access_token)
+          |> redirect(to: "/")
+        {:error, changeset} ->
+          conn
+          |> put_flash(:error, "Login failed.")
+          |> redirect(to: "/")
+      end
+    end
+  end
+
+  def logout(conn, _) do
     conn
-    |> put_session(:current_user, user)
-    |> put_session(:access_token, token.access_token)
-    |> redirect(to: "/")
+    |> clear_session
+    |> redirect to: "/"
   end
 
   defp authorize_url!("google") do

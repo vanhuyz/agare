@@ -5,12 +5,12 @@ defmodule Agare.Repo.Migrations.CreateUser do
     create table(:users) do
       add :name, :string
       add :email, :string
-      add :image, :string
-      add :provider, :string
-      add :uid, :string
+      add :picture, :string
 
       timestamps
     end
+
+    create index(:users, [:email], unique: true)
 
   end
 end

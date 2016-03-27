@@ -3,7 +3,7 @@ defmodule Agare.UserTest do
 
   alias Agare.User
 
-  @valid_attrs %{email: "some content", image: "some content", name: "some content", provider: "some content", uid: "some content"}
+  @valid_attrs %{email: "some content", image: "some content", name: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

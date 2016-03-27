@@ -4,14 +4,12 @@ defmodule Agare.User do
   schema "users" do
     field :name, :string
     field :email, :string
-    field :image, :string
-    field :provider, :string
-    field :uid, :string
+    field :picture, :string
 
     timestamps
   end
 
-  @required_fields ~w(name email image provider uid)
+  @required_fields ~w(name email picture)
   @optional_fields ~w()
 
   @doc """

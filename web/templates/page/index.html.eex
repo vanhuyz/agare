@@ -1,5 +1,9 @@
 <%= if @current_user do %>
-  <h2>Welcome, <%= @current_user["name"] %>!</h2>
+  <h2>Welcome, <%= @current_user.name %>!</h2>
+  <%= link to: auth_path(@conn, :logout), class: "btn btn-warning",
+               method: :delete, data: [confirm: "Are you sure?"] do %>
+    Log out
+  <% end %>
 <% else %>
   <%= link to: auth_path(@conn, :index, "google"), class: "btn btn-primary" do %>
     Sign in with Google
