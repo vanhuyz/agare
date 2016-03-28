@@ -1,0 +1,28 @@
+<h2>Show idea</h2>
+
+<ul>
+
+  <li>
+    <strong>User:</strong>
+    <%= @idea.user_id %>
+  </li>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @idea.title %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @idea.description %>
+  </li>
+
+  <li>
+    <strong>Likes count:</strong>
+    <%= @idea.likes_count %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: idea_path(@conn, :edit, @idea) %>
+<%= link "Back", to: idea_path(@conn, :index) %>

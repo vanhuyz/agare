@@ -17,7 +17,7 @@ defmodule Agare.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/ideas", IdeaController, except: [:new, :edit]
+    resources "/ideas", IdeaController
   end
 
   scope "/auth", Agare do
