@@ -40,7 +40,7 @@ defmodule Agare.AuthController do
   def sign_out(conn, _) do
     conn
     |> clear_session
-    |> redirect to: "/"
+    |> redirect(to: "/")
   end
 
   defp authorize_url!("google") do

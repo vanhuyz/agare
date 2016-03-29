@@ -11,12 +11,12 @@ defmodule Agare.PageController do
     if is_nil(current_user_id) do
       conn
       |> assign(:current_user, nil)
-      |> render "index.html"
+      |> render("index.html")
     else
       current_user = Repo.get(User, current_user_id)
       conn
       |> assign(:current_user, current_user)
-      |> render "index.html"
+      |> render("index.html")
     end
   end
 end

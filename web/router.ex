@@ -29,7 +29,9 @@ defmodule Agare.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", Agare do
-  #   pipe_through :api
-  # end
+  scope "/api", Agare.Api, as: :api do
+    pipe_through :api
+
+    resources "/ideas", IdeaController, except: [:new, :edit]
+  end
 end
