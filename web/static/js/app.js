@@ -19,3 +19,20 @@ import "phoenix_html"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+
+import $ from "jquery"
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+
+
+$(function () {
+
+    ReactDOM.render(React.createElement(
+    "h2",
+    {
+        className: "jumbotron" 
+    },
+    "Hello from React!"
+    ), document.getElementById("hello_world"))
+})

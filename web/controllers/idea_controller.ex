@@ -7,28 +7,36 @@ defmodule Agare.IdeaController do
 
   def index(conn, _params) do
     ideas = Repo.all(Idea)
-    render(conn, "index.json", ideas: ideas)
+    render(conn, "index.html", ideas: ideas)
+  end
+
+  def new(conn, _params) do
+    changeset = Idea.changeset(%Idea{})
+    render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"idea" => idea_params}) do
     changeset = Idea.changeset(%Idea{}, idea_params)
 
     case Repo.insert(changeset) do
-      {:ok, idea} ->
+      {:ok, _idea} ->
         conn
-        |> put_status(:created)
-        |> put_resp_header("location", idea_path(conn, :show, idea))
-        |> render("show.json", idea: idea)
+        |> put_flash(:info, "Idea created successfully.")
+        |> redirect(to: idea_path(conn, :index))
       {:error, changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> render(Agare.ChangesetView, "error.json", changeset: changeset)
+        render(conn, "new.html", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}) do
     idea = Repo.get!(Idea, id)
-    render(conn, "show.json", idea: idea)
+    render(conn, "show.html", idea: idea)
+  end
+
+  def edit(conn, %{"id" => id}) do
+    idea = Repo.get!(Idea, id)
+    changeset = Idea.changeset(idea)
+    render(conn, "edit.html", idea: idea, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "idea" => idea_params}) do
@@ -37,11 +45,11 @@ defmodule Agare.IdeaController do
 
     case Repo.update(changeset) do
       {:ok, idea} ->
-        render(conn, "show.json", idea: idea)
-      {:error, changeset} ->
         conn
-        |> put_status(:unprocessable_entity)
-        |> render(Agare.ChangesetView, "error.json", changeset: changeset)
+        |> put_flash(:info, "Idea updated successfully.")
+        |> redirect(to: idea_path(conn, :show, idea))
+      {:error, changeset} ->
+        render(conn, "edit.html", idea: idea, changeset: changeset)
     end
   end
 
@@ -52,6 +60,8 @@ defmodule Agare.IdeaController do
     # it to always work (and if it does not, it will raise).
     Repo.delete!(idea)
 
-    send_resp(conn, :no_content, "")
+    conn
+    |> put_flash(:info, "Idea deleted successfully.")
+    |> redirect(to: idea_path(conn, :index))
   end
 end
