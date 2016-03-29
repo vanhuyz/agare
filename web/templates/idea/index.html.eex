@@ -1,35 +1,4 @@
 
-<div id="hello_world"></div>
+<div id="content"></div>
 
-<h2>Listing ideas</h2>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Likes count</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for idea <- @ideas do %>
-    <tr>
-      <td><%= idea.user_id %></td>
-      <td><%= idea.title %></td>
-      <td><%= idea.description %></td>
-      <td><%= idea.likes_count %></td>
-
-      <td class="text-right">
-        <%= link "Show", to: idea_path(@conn, :show, idea), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: idea_path(@conn, :edit, idea), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: idea_path(@conn, :delete, idea), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<%= link "New idea", to: idea_path(@conn, :new) %>

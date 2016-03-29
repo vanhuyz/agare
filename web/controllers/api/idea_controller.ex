@@ -12,13 +12,14 @@ defmodule Agare.Api.IdeaController do
 
   def create(conn, %{"idea" => idea_params}) do
     changeset = Idea.changeset(%Idea{}, idea_params)
+    ideas = Repo.all(Idea)
 
     case Repo.insert(changeset) do
       {:ok, idea} ->
         conn
         |> put_status(:created)
         |> put_resp_header("location", idea_path(conn, :show, idea))
-        |> render("show.json", idea: idea)
+        |> render("index.json", ideas: ideas)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
